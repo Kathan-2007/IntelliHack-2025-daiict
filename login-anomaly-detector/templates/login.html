@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Secure Access</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <style>
+        /* Animated gradient background */
+        
+        body {
+            background: linear-gradient(-45deg, #4f46e5, #9333ea, #3b82f6, #a855f7);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+            overflow: hidden;
+        }
+        
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        /* Floating particles */
+        
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            animation: float 12s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-100px) translateX(50px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.3;
+            }
+        }
+        /* Glassmorphism Card */
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            animation: fadeInUp 1.2s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Input fields */
+        
+        .input-field {
+            padding-left: 45px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            transition: 0.3s;
+        }
+        
+        .input-field:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #a78bfa;
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.7);
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #e5e7eb;
+            font-size: 18px;
+        }
+        /* Button with glow + ripple */
+        
+        .btn-glow {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #6366f1, #9333ea);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-glow:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(147, 51, 234, 0.6);
+        }
+        
+        .btn-glow::after {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -100%;
+            left: -100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 20%, transparent 20%);
+            background-size: 50% 50%;
+            animation: ripple 6s linear infinite;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(50%, 50%);
+            }
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen">
+
+    <!-- Floating Particles -->
+    <div class="particle" style="top:20%; left:30%; animation-delay:0s;"></div>
+    <div class="particle" style="top:60%; left:70%; animation-delay:2s;"></div>
+    <div class="particle" style="top:40%; left:20%; animation-delay:4s;"></div>
+    <div class="particle" style="top:80%; left:50%; animation-delay:6s;"></div>
+
+    <!-- Login Card -->
+    <div class="glass-card p-10 w-full max-w-md text-center text-white">
+        <h2 class="text-3xl font-extrabold mb-6 tracking-wider">🔐 Secure Login</h2>
+
+        {% if error %}
+        <div class="bg-red-500/40 border border-red-300 p-2 rounded-lg mb-4 text-sm">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" class="space-y-5">
+
+            <!-- Username -->
+            <div class="relative">
+                <!-- <i class="bi bi-person-fill input-icon"></i> -->
+                <input type="text" name="username" placeholder="Username" required class="w-full p-3 rounded-lg input-field focus:outline-none">
+            </div>
+
+            <!-- Password -->
+            <div class="relative">
+                <!-- <i class="bi bi-lock-fill input-icon"></i> -->
+                <input type="password" name="password" placeholder="Password" required class="w-full p-3 rounded-lg input-field focus:outline-none">
+            </div>
+
+            <!-- Country -->
+            <div class="relative">
+                <select id="country" name="country" required class="w-full p-3 rounded-lg input-field focus:outline-none text-white">
+                    <option value="" disabled>Select Country</option>
+                    <option value="India" class="text-black">India</option>
+                    <option value="USA" class="text-black">USA</option>
+                    <option value="UK" class="text-black">UK</option>
+                    <option value="Canada" class="text-black">Canada</option>
+                    <option value="Australia" class="text-black">Australia</option>
+                    <option value="UAE" class="text-black">UAE</option>
+                    <option value="Other" class="text-black">Other</option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn-glow w-full py-3 text-lg tracking-wide">
+        Login
+      </button>
+        </form>
+
+        <p class="text-sm text-gray-200 mt-6">© 2025 Secure Cloud Logins</p>
+    </div>
+    <script>
+        (function() {
+            try {
+                const detected = "{{ detected_country or '' }}";
+                const select = document.getElementById('country');
+                if (detected && select) {
+                    for (const opt of select.options) {
+                        if (opt.value.toLowerCase() === detected.toLowerCase()) {
+                            opt.selected = true;
+                            break;
+                        }
+                    }
+                }
+                if ((!detected || detected === 'Unknown') && select) {
+                    fetch('https://ipapi.co/json/')
+                        .then(r => r.json())
+                        .then(data => {
+                            const c = data && data.country_name;
+                            if (c) {
+                                for (const opt of select.options) {
+                                    if (opt.value.toLowerCase() === c.toLowerCase()) {
+                                        opt.selected = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        })
+                        .catch(() => {});
+                }
+            } catch (_) {}
+        })();
+    </script>
+</body>
+
+</html>
